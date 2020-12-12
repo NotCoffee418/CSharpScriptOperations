@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RepositoryUrl>https://github.com/NotCoffee418/CSharpScriptOperations</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/NotCoffee418/CSharpScriptOperations</PackageProjectUrl>
+    <RepositoryType></RepositoryType>
+    <PackageTags>csharp, scripting, console</PackageTags>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Description>Tool for running blocks of code for scripting long-running operations in a console application.
+</Description>
+    <Authors>NotCoffee418</Authors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
