@@ -6,7 +6,6 @@ This is my current approach to running blocks of code for scripting long-running
 This isn't really intended for anyone but myself, but it's a simple, documented and working so maybe someone can get some use out of it.  
 
 There may be better options for you such as [.NET Core for Jupyter](https://devblogs.microsoft.com/dotnet/net-core-with-juypter-notebooks-is-here-preview-1/), [CSharp Scripting](https://github.com/dotnet/roslyn/blob/master/docs/wiki/Scripting-API-Samples.md) or [an actual scripting language](https://www.python.org/) but unfortunately my (lack of) Python skills slow me down and the other options are missing some important features as well.
-will handle everything else.
 
 ### How to use it
 #### 1. Install the nuget package.
