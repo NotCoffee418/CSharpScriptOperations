@@ -14,6 +14,7 @@ namespace ExampleConsoleApp
                 new List<IOperation>() {
                     new TwoPlusTwo(),
                     new LondonWeather(),
+                    new DemoUserInput(),
                 }
             );
 
