@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace CSharpScriptOperations
 {
@@ -12,6 +13,6 @@ namespace CSharpScriptOperations
         /// <summary>
         /// Starts the operation
         /// </summary>
-        void Run();
+        Task RunAsync();
     }
 }

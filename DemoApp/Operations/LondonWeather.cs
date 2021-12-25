@@ -4,15 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace ExampleConsoleApp.Operations
+namespace DemoApp.Operations
 {
     class LondonWeather : IOperation
     {
         public string Description => 
             "Print the current weather in London";
 
-        public void Run()
+        public async Task RunAsync()
         {
             // Attempts to get the 
             try

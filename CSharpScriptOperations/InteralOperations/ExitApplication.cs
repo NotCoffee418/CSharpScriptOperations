@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CSharpScriptOperations.InteralOperations
 {
@@ -12,7 +13,7 @@ namespace CSharpScriptOperations.InteralOperations
         public string Description => 
             "Exit Application";
 
-        public void Run()
+        public async Task RunAsync()
             => Environment.Exit(0);
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace CSharpScriptOperations
 {
@@ -13,19 +14,19 @@ namespace CSharpScriptOperations
         /// </summary>
         static OperationManager()
         {
-            RegisterOperation(new ExitApplication());
+            RegisterOperation(typeof(ExitApplication));
         }
 
-        private static Dictionary<int, IOperation> _registeredOperations 
-            = new Dictionary<int, IOperation>();
+        private static Dictionary<int, Type> _registeredOperations
+            = new Dictionary<int, Type>();
 
         /// <summary>
         /// Read-only access to RegisteredOperations.
         /// Dictionary: InputNumber, Operation
         /// </summary>
-        public static ReadOnlyDictionary<int, IOperation> RegisteredOperations 
-        { 
-            get {  return new ReadOnlyDictionary<int, IOperation>(_registeredOperations); }
+        public static ReadOnlyDictionary<int, Type> RegisteredOperations
+        {
+            get { return new ReadOnlyDictionary<int, Type>(_registeredOperations); }
         }
 
         /// <summary>
@@ -33,7 +34,7 @@ namespace CSharpScriptOperations
         /// </summary>
         /// <param name="operation">Instance of an IOperation</param>
         /// <param name="overrideIndex">Manually overrides index. Leave 0 for auto-assign (recommended).</param>
-        public static void RegisterOperation(IOperation operation, int overrideIndex = 0)
+        public static void RegisterOperation(Type operation, int overrideIndex = 0)
         {
             // Determine new index;
             int newIndex = _registeredOperations.Count;
@@ -52,7 +53,7 @@ namespace CSharpScriptOperations
         /// Function that registers a list of operations for less verbose.
         /// </summary>
         /// <param name="operations">List of IOperation instances</param>
-        public static void RegisterOperationsBulk(List<IOperation> operations)
+        public static void RegisterOperationsBulk(List<Type> operations)
             => operations.ForEach(op => RegisterOperation(op));
 
         /// <summary>
@@ -60,7 +61,7 @@ namespace CSharpScriptOperations
         /// requests user input and runs the requested operation.
         /// This will keep looping until the Exit Application operation is called.
         /// </summary>
-        public static void StartListening()
+        public static async Task StartListeningAsync()
         {
             // List all operations
             Console.Write(GetOperationsDisplay());
@@ -94,11 +95,13 @@ namespace CSharpScriptOperations
                     continue;
                 }
 
+                // Create instance
+                IOperation operationInstance = (IOperation)Activator.CreateInstance(_registeredOperations[reqOperationId]);
+
                 // Valid registered operation, report and run it run it.
                 Console.WriteLine();
-                Console.WriteLine($"Running operation {reqOperationId}: {_registeredOperations[reqOperationId].Description}...");
-                _registeredOperations[reqOperationId].Run();
-                Console.WriteLine("Operation complete (or running in the background)");
+                Console.WriteLine($"Running operation {reqOperationId}: {operationInstance.Description}...");
+                await operationInstance.RunAsync();
                 Console.WriteLine();
             }
         }
@@ -111,8 +114,24 @@ namespace CSharpScriptOperations
         {
             string result = "Available Operations: " + Environment.NewLine;
             foreach (var opKvp in _registeredOperations)
-                result += $"{opKvp.Key}. {opKvp.Value.Description}{Environment.NewLine}";
+            {
+                // Create an instance to extract the description
+                // Validate instance as IOperation
+                IOperation operationInstance = null;
+                try
+                {
+                    operationInstance = (IOperation)Activator.CreateInstance(opKvp.Value);
+                }
+                catch (Exception ex)
+                {
+                    return $"ERROR: There was a problem instanciating {opKvp.Value.Name}. Is it an IOperation?{Environment.NewLine}" +
+                        ex.Message;
+                }
+
+                result += $"{opKvp.Key}. {operationInstance.Description}{Environment.NewLine}";
+            }
+                
             return result;
-        }
+        } 
     }
 }

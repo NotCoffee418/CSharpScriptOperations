@@ -11,7 +11,8 @@
     <Description>Tool for running blocks of code for scripting long-running operations in a console application.
 </Description>
     <Authors>NotCoffee418</Authors>
-    <Version>1.0.1</Version>
+    <Version>1.1.1</Version>
+    <PackageReleaseNotes>BREAKING CHANGES! Async support and non-global operation instances</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

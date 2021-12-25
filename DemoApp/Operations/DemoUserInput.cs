@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExampleConsoleApp.Operations
+namespace DemoApp.Operations
 {
     class DemoUserInput : IOperation
     {
         public string Description => "Demo UserInput";
 
-        public void Run()
+        public async Task RunAsync()
         {
             bool input = UserInput.PoseBoolQuestion("This is a sample question?");
             Console.WriteLine($"User input: {input}");

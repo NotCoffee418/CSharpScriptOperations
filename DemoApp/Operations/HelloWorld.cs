@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExampleConsoleApp.Operations
+namespace DemoApp.Operations
 {
     class HelloWorld : IOperation
     {
         public string Description => "Say 'Hello World!'";
 
-        public void Run()
+        public async Task RunAsync()
         {
             Console.WriteLine("Hello World!");
         }
