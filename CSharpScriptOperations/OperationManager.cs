@@ -1,8 +1,11 @@
 ﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using CSharpScriptOperations.InteralOperations;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -84,6 +87,10 @@ namespace CSharpScriptOperations
             // Register application dependencies
             ContainerBuilder.RegisterType<Application>();
 
+            // Prevents IServiceProvider related issues
+            // See: https://stackoverflow.com/questions/61779868/injecting-iserviceprovider-into-factory-class-with-autofac
+            ContainerBuilder.Populate(Enumerable.Empty<ServiceDescriptor>());
+
             // Create container with all dependencies
             Container = ContainerBuilder.Build();
 
@@ -114,8 +121,7 @@ namespace CSharpScriptOperations
                 }
                 catch (Exception ex)
                 {
-                    return $"ERROR: There was a problem instanciating {opKvp.Value.Name}. Is it an IOperation?{Environment.NewLine}" +
-                        ex.Message;
+                    throw new Exception($"There was a problem instanciating {opKvp.Value.Name}. Is it an IOperation?{Environment.NewLine}", ex) ;
                 }
 
                 result += $"{opKvp.Key}. {operationInstance.Description}{Environment.NewLine}";

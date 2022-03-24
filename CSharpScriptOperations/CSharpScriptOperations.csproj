@@ -11,8 +11,8 @@
     <Description>Tool for running blocks of code for scripting long-running operations in a console application.
 </Description>
     <Authors>NotCoffee418</Authors>
-    <Version>1.2.0</Version>
-    <PackageReleaseNotes>Autofac dependency injection support added</PackageReleaseNotes>
+    <Version>1.2.1</Version>
+    <PackageReleaseNotes>Fix IServiceProvider issues for Autofac</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="6.3.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
   </ItemGroup>
 
 </Project>
