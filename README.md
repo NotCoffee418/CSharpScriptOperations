@@ -44,7 +44,20 @@ Or register operations one by one:
 OperationManager.RegisterOperation(typeof(HelloWorld));
 ```
 
-### 4. Start the listener
+### 4. Register dependencies (optional)
+If you'd like to use dependency injection with autofac, make sure to install the [autofac nuget package](https://www.nuget.org/packages/Autofac) and add the using statement.
+
+```csharp
+using Autofac;
+```
+Register any dependencies to `OperationManager.ContainerBuilder` before starting the listener.
+```csharp
+OperationManager.ContainerBuilder
+    .RegisterType<ExampleDependency>()
+    .As<IExampleDependency>();
+```
+
+### 5. Start the listener
 This will display our options and interpret user input to run the approperiate operation.
 ```csharp
 await OperationManager.StartListeningAsync();
@@ -53,7 +66,7 @@ Alternatively you can implement your own version of `StartListening()`.
 You can access the registered operations and it's classes through the
 `OperationManager.RegisteredOperations` object.
 
-### 5. Try it out
+### 6. Try it out
 The output of the ExampleConsoleApp looks like this:
 ```
 Available Operations:
@@ -78,4 +91,4 @@ The `0. Exit Application` is already installed by default.
 
 ### Example
 
-See the implementation in the [DemoApp](https://github.com/NotCoffee418/CSharpScriptOperations/blob/main/DemoApp).
+See the full implementation in the [DemoApp](https://github.com/NotCoffee418/CSharpScriptOperations/blob/main/DemoApp).

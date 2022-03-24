@@ -11,8 +11,8 @@
     <Description>Tool for running blocks of code for scripting long-running operations in a console application.
 </Description>
     <Authors>NotCoffee418</Authors>
-    <Version>1.1.1</Version>
-    <PackageReleaseNotes>BREAKING CHANGES! Async support and non-global operation instances</PackageReleaseNotes>
+    <Version>1.2.0</Version>
+    <PackageReleaseNotes>Autofac dependency injection support added</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +20,10 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.3.0" />
   </ItemGroup>
 
 </Project>

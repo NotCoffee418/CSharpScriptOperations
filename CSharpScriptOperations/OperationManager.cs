@@ -1,9 +1,11 @@
-﻿using CSharpScriptOperations.InteralOperations;
+﻿using Autofac;
+using CSharpScriptOperations.InteralOperations;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace CSharpScriptOperations
 {
@@ -19,6 +21,16 @@ namespace CSharpScriptOperations
 
         private static Dictionary<int, Type> _registeredOperations
             = new Dictionary<int, Type>();
+
+        /// <summary>
+        /// Use to register additional dependencies
+        /// </summary>
+        public static ContainerBuilder ContainerBuilder = new ContainerBuilder();
+
+        /// <summary>
+        /// Built container for internal access
+        /// </summary>
+        internal static IContainer Container = null;
 
         /// <summary>
         /// Read-only access to RegisteredOperations.
@@ -47,6 +59,9 @@ namespace CSharpScriptOperations
 
             // Register the operation
             _registeredOperations.Add(newIndex, operation);
+
+            // Register as dependency
+            ContainerBuilder.RegisterType(operation);
         }
 
         /// <summary>
@@ -60,50 +75,20 @@ namespace CSharpScriptOperations
         /// Starts the listener loop which displays the registered operations,
         /// requests user input and runs the requested operation.
         /// This will keep looping until the Exit Application operation is called.
+        /// 
+        /// Register any dependencies before calling this function.
         /// </summary>
+        /// <returns></returns>
         public static async Task StartListeningAsync()
         {
-            // List all operations
-            Console.Write(GetOperationsDisplay());
+            // Register application dependencies
+            ContainerBuilder.RegisterType<Application>();
 
-            // Request user
-            while (true) // Breakout is calling Exit operation
-            {
-                Console.WriteLine(); // empty
-                Console.WriteLine("Select an operation ('help' for list of operations)");
-                string userInput = Console.ReadLine();
+            // Create container with all dependencies
+            Container = ContainerBuilder.Build();
 
-                // Handle "help"
-                if (userInput.ToLower() == "help")
-                {
-                    Console.Write(GetOperationsDisplay());
-                    continue;
-                }
-
-                // Parse input, report and repeat on invalid
-                int reqOperationId = -1;
-                if (!int.TryParse(userInput, out reqOperationId))
-                {
-                    Console.WriteLine("Input must be the numeric identifier of a registered operation. Try again.");
-                    continue;
-                }
-
-                // Handle invalid operation id
-                if (!_registeredOperations.ContainsKey(reqOperationId))
-                {
-                    Console.WriteLine("Invalid operation number. Try again.");
-                    continue;
-                }
-
-                // Create instance
-                IOperation operationInstance = (IOperation)Activator.CreateInstance(_registeredOperations[reqOperationId]);
-
-                // Valid registered operation, report and run it run it.
-                Console.WriteLine();
-                Console.WriteLine($"Running operation {reqOperationId}: {operationInstance.Description}...");
-                await operationInstance.RunAsync();
-                Console.WriteLine();
-            }
+            // Start listening in container
+            await Container.Resolve<Application>().RunAsync();
         }
 
         /// <summary>
@@ -112,6 +97,11 @@ namespace CSharpScriptOperations
         /// <returns></returns>
         public static string GetOperationsDisplay()
         {
+            // Handle incorrect usage
+            if (Container is null)
+                return "Cannot call GetOperationsDisplay() manually before calling StartListeningAsync(), which will print it automatically.";
+
+            // Display operations
             string result = "Available Operations: " + Environment.NewLine;
             foreach (var opKvp in _registeredOperations)
             {
@@ -120,7 +110,7 @@ namespace CSharpScriptOperations
                 IOperation operationInstance = null;
                 try
                 {
-                    operationInstance = (IOperation)Activator.CreateInstance(opKvp.Value);
+                    operationInstance = (IOperation)Container.Resolve(opKvp.Value);
                 }
                 catch (Exception ex)
                 {
@@ -133,5 +123,24 @@ namespace CSharpScriptOperations
                 
             return result;
         } 
+
+        /// <summary>
+        /// Check if an ID had a registered operation
+        /// </summary>
+        /// <param name="operationId"></param>
+        /// <returns></returns>
+        public static bool OperationIdExists(int operationId)
+            => _registeredOperations.ContainsKey(operationId);
+
+
+        /// <summary>
+        /// Get the type of an operation by it's ID
+        /// </summary>
+        /// <param name="operationId"></param>
+        /// <returns></returns>
+        public static Type GetOperationTypeById(int operationId)
+            => OperationIdExists(operationId) ?
+            _registeredOperations[operationId] :
+            throw new ArgumentException("GetOperationTypeById failed because the input id has no registered operation");
     }
 }
