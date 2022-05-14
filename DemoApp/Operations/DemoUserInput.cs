@@ -1,20 +1,14 @@
 ﻿using CSharpScriptOperations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DemoApp.Operations
+namespace DemoApp.Operations;
+
+
+[OperationDescription("Demo UserInput")]
+class DemoUserInput : IOperation
 {
-    class DemoUserInput : IOperation
+    public async Task RunAsync()
     {
-        public string Description => "Demo UserInput";
-
-        public async Task RunAsync()
-        {
-            bool input = UserInput.PoseBoolQuestion("This is a sample question?");
-            Console.WriteLine($"User input: {input}");
-        }
+        bool input = UserInput.PoseBoolQuestion("This is a sample question?");
+        Console.WriteLine($"User input: {input}");
     }
 }

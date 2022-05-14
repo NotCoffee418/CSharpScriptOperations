@@ -8,11 +8,11 @@
     <RepositoryType></RepositoryType>
     <PackageTags>csharp, scripting, console</PackageTags>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <Description>Tool for running blocks of code for scripting long-running operations in a console application.
-</Description>
+    <Description>Tool for running blocks of code for scripting long-running operations in a console application.</Description>
     <Authors>NotCoffee418</Authors>
-    <Version>1.2.1</Version>
-    <PackageReleaseNotes>Fix IServiceProvider issues for Autofac</PackageReleaseNotes>
+    <Version>1.3.0</Version>
+    <PackageReleaseNotes>Operation description is now an attribute instead of a property to work better with dependency injection</PackageReleaseNotes>
+	<LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

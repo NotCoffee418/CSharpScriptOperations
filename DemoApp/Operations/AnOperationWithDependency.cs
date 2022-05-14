@@ -1,30 +1,24 @@
 ﻿using CSharpScriptOperations;
 using DemoApp.Logic;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DemoApp.Operations
+namespace DemoApp.Operations;
+
+
+[OperationDescription("Multiply with Autofac dependency injection")]
+class AnOperationWithDependency : IOperation
 {
-    class AnOperationWithDependency : IOperation
+    private IExampleDependency _exampleDependency;
+
+    public AnOperationWithDependency(IExampleDependency exampleDependency)
     {
-        private IExampleDependency _exampleDependency;
+        _exampleDependency = exampleDependency;
+    }
 
-        public AnOperationWithDependency(IExampleDependency exampleDependency)
-        {
-            _exampleDependency = exampleDependency;
-        }
+    public async Task RunAsync()
+    {
+        Console.WriteLine("Multiplying 2 and 3 through IExampleDependency.");
 
-        public string Description => "Multiply with Autofac dependency dnjection";
-
-        public async Task RunAsync()
-        {
-            Console.WriteLine("Multiplying 2 and 3 through IExampleDependency.");
-
-            double result = _exampleDependency.Multiply(2, 3);
-            Console.WriteLine($"Result: {result}");
-        }
+        double result = _exampleDependency.Multiply(2, 3);
+        Console.WriteLine($"Result: {result}");
     }
 }

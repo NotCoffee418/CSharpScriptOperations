@@ -13,11 +13,10 @@ Call `using CSharpScriptOperations` wherever you need it.
 Operations are class objects dedicated to a specific task or set of tasks. They implement this package's `IOperation` class.  
 An operation will look something like this:
 ```csharp
+
+[OperationDescription("Print the result of 2+2")]
 class TwoPlusTwo : IOperation
 {
-    public string Description => 
-        "Print the result of 2+2";
-
     public async Task RunAsync()
     {
         int result = 2 + 2;
@@ -26,7 +25,7 @@ class TwoPlusTwo : IOperation
 }
 ```
 Whatever is in the `RunAsync()` method is called when the operation is requested.  
-The description is used in the console to show what the operration does.
+The description attribute is used in the console to show what the operation does.
 
 ### 3. Register your operations
 Bulk register your operations in one swoop:
@@ -87,8 +86,8 @@ The weather in London is currently: Light Rain
 Operation complete (or running in the background)
 ```
 The application will run until operation 0 is called.  
-The `0. Exit Application` is already installed by default.
+The `0. Exit Application` operation is already installed by default.
 
 ### Example
 
-See the full implementation in the [DemoApp](https://github.com/NotCoffee418/CSharpScriptOperations/blob/main/DemoApp).
+See the full implementation examples in the [DemoApp](https://github.com/NotCoffee418/CSharpScriptOperations/blob/main/DemoApp).

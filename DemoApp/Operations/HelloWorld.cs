@@ -1,19 +1,13 @@
 ﻿using CSharpScriptOperations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DemoApp.Operations
+namespace DemoApp.Operations;
+
+
+[OperationDescription("Say 'Hello World!'")]
+class HelloWorld : IOperation
 {
-    class HelloWorld : IOperation
+    public async Task RunAsync()
     {
-        public string Description => "Say 'Hello World!'";
-
-        public async Task RunAsync()
-        {
-            Console.WriteLine("Hello World!");
-        }
+        Console.WriteLine("Hello World!");
     }
 }

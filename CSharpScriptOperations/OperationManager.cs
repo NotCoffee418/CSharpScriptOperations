@@ -1,14 +1,12 @@
-﻿using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using CSharpScriptOperations.InteralOperations;
-using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using Microsoft.Extensions.DependencyInjection;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using CSharpScriptOperations.InteralOperations;
 
 namespace CSharpScriptOperations
 {
@@ -33,7 +31,7 @@ namespace CSharpScriptOperations
         /// <summary>
         /// Built container for internal access
         /// </summary>
-        internal static IContainer Container = null;
+        internal static Autofac.IContainer Container = null;
 
         /// <summary>
         /// Read-only access to RegisteredOperations.
@@ -108,27 +106,36 @@ namespace CSharpScriptOperations
             if (Container is null)
                 return "Cannot call GetOperationsDisplay() manually before calling StartListeningAsync(), which will print it automatically.";
 
-            // Display operations
+            /// Display operations
             string result = "Available Operations: " + Environment.NewLine;
             foreach (var opKvp in _registeredOperations)
             {
-                // Create an instance to extract the description
-                // Validate instance as IOperation
-                IOperation operationInstance = null;
-                try
-                {
-                    operationInstance = (IOperation)Container.Resolve(opKvp.Value);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception($"There was a problem instanciating {opKvp.Value.Name}. Is it an IOperation?{Environment.NewLine}", ex) ;
-                }
-
-                result += $"{opKvp.Key}. {operationInstance.Description}{Environment.NewLine}";
-            }
                 
+
+                /// Find the description
+                // Default
+                string description = "Add an [OperationDescription(\"goes here\")] attribute to the operation class.";
+                // Try via description attribute
+                OperationDescriptionAttribute? descAttr = opKvp.Value.GetCustomAttributes(typeof(OperationDescriptionAttribute), false)
+                    .FirstOrDefault() as OperationDescriptionAttribute;
+                if (descAttr is not null) // via attribute
+                    description = descAttr.Description;
+                // LEGACY: Try via Description property
+                else if (opKvp.Value.GetProperty("Description") is not null)
+                {
+                    // Create an instance and extract the description
+                    IOperation operationInstance = null;
+                    try
+                    {
+                        operationInstance = (IOperation)Container.Resolve(opKvp.Value);
+                        description = opKvp.Value.GetProperty("Description").GetValue(operationInstance) as string;
+                    }
+                    catch {/* Use default description */}
+                }
+                result += $"{opKvp.Key}. {description}{Environment.NewLine}";
+            }
             return result;
-        } 
+        }
 
         /// <summary>
         /// Check if an ID had a registered operation

@@ -1,20 +1,14 @@
 ﻿using CSharpScriptOperations;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DemoApp.Operations
+namespace DemoApp.Operations;
+
+
+[OperationDescription("Print the result of 2+2")]
+class TwoPlusTwo : IOperation
 {
-    class TwoPlusTwo : IOperation
+    public async Task RunAsync()
     {
-        public string Description => 
-            "Print the result of 2+2";
-
-        public async Task RunAsync()
-        {
-            int result = 2 + 2;
-            Console.WriteLine($"2 + 2 = {result}");
-        }
+        int result = 2 + 2;
+        Console.WriteLine($"2 + 2 = {result}");
     }
 }

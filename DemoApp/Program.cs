@@ -13,6 +13,7 @@ OperationManager.RegisterOperationsBulk(
         typeof(LondonWeather),
         typeof(DemoUserInput),
         typeof(AnOperationWithDependency),
+        typeof(LegacyDescriptionDemo)
     }
 );
 

@@ -1,32 +1,25 @@
 ﻿using CSharpScriptOperations;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace DemoApp.Operations
+namespace DemoApp.Operations;
+
+[OperationDescription("Print the current weather in London")]
+class LondonWeather : IOperation
 {
-    class LondonWeather : IOperation
+    public async Task RunAsync()
     {
-        public string Description => 
-            "Print the current weather in London";
-
-        public async Task RunAsync()
+        // Attempt to get the weather and print it to the console
+        try
         {
-            // Attempts to get the 
-            try
-            {
-                string apiUrl = "https://www.metaweather.com/api/location/44418/";
-                var json = (new WebClient()).DownloadString(apiUrl);
-                var weatherObj = JsonConvert.DeserializeObject<dynamic>(json);
-                Console.WriteLine("The weather in London is currently: " + weatherObj.consolidated_weather[0].weather_state_name);
-            }
-            catch
-            {
-                Console.WriteLine("Failed to get weather in London.");
-            }
+            string apiUrl = "https://www.metaweather.com/api/location/44418/";
+            var json = await (new HttpClient()).GetStringAsync(apiUrl);
+            var weatherObj = JsonConvert.DeserializeObject<dynamic>(json);
+            Console.WriteLine("The weather in London is currently: " + weatherObj.consolidated_weather[0].weather_state_name);
+        }
+        catch
+        {
+            Console.WriteLine("Failed to get weather in London.");
         }
     }
 }
