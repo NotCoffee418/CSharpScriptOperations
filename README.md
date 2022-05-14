@@ -2,9 +2,31 @@
 
 [![Nuget](https://img.shields.io/nuget/v/CSharpScriptOperations?style=for-the-badge "Nuget")](https://www.nuget.org/packages/CSharpScriptOperations)
 
-This is an approach to running blocks of code or long-running operations using C#.  
+## What is it?
+CSharpScriptOperations is a library for .NET console applications to quickly set up a console application interface.  
+Developers can use it to get quick access to specific portions of their codebase by creating an `IOperation` for it.
+This library optionally supports dependency injection through Autofac.
 
-## How to use it
+## What does it look like?
+This is an example taken from the [DemoApp](https://github.com/NotCoffee418/CSharpScriptOperations/blob/main/DemoApp).
+```
+Available Operations:
+0. Exit Application
+1. Say 'Hello World!'
+2. Print the result of 2+2
+3. Print the current weather in London
+4. Demo UserInput
+5. Multiply with Autofac dependency injection
+6. Legacy Description'
+
+Select an operation ('help' for list of operations)
+1
+
+Running operation 1...
+Hello World!
+```
+
+## How to use it?
 ### 1. Install the nuget package.
 Install the  [nuget package](https://www.nuget.org/packages/CSharpScriptOperations/) into a **Console Application**.  
 Call `using CSharpScriptOperations` wherever you need it.
