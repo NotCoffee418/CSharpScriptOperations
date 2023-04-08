@@ -11,7 +11,7 @@ public static class UserInput
     public static bool PoseBoolQuestion(string question, bool? defaultAnswer = true)
     {
         // Prepare question
-        string response = "";
+        string response;
         string answerOptions = "y/n";
         if (defaultAnswer.HasValue)
             if (defaultAnswer == true)

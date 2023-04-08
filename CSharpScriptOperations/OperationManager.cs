@@ -63,6 +63,22 @@ public static class OperationManager
         => operations.ForEach(op => RegisterOperation(op));
 
     /// <summary>
+    /// Automatically registers any operations found in the assembly.
+    /// </summary>
+    public static void AutoRegisterOperations()
+    {
+        // Get all applicable types
+        List<Type> operationTypes = AppDomain.CurrentDomain.GetAssemblies()
+            .SelectMany(x => x.GetTypes())
+            .UniqueBy( x => x.FullName)
+            .Where(t => !t.IsInterface && !t.IsAbstract && t.GetInterfaces().Any(t => t.FullName == typeof(IOperation).FullName))
+            // Don't include any internal operations
+            .Where(a => !a.FullName.StartsWith(nameof(CSharpScriptOperations)))
+            .ToList();
+        RegisterOperationsBulk(operationTypes);
+    }
+
+    /// <summary>
     /// Starts the listener loop which displays the registered operations,
     /// requests user input and runs the requested operation.
     /// This will keep looping until the Exit Application operation is called.

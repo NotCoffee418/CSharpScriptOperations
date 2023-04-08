@@ -7,6 +7,25 @@ CSharpScriptOperations is a library for .NET console applications to quickly set
 Developers can use it to get quick access to specific portions of their codebase by creating an `IOperation` for it.
 This library optionally supports dependency injection through Autofac.
 
+## Quick Start
+Create an operation in a new class implementing `IOperation` with an `OperationDescription` attribute.
+```csharp
+[OperationDescription("Print the result of 2+2")]
+class TwoPlusTwo : IOperation
+{
+    public async Task RunAsync()
+    {
+        int result = 2 + 2;
+        Console.WriteLine($"2 + 2 = {result}");
+    }
+}
+```
+Register your operations in `Program.cs`.
+```csharp
+OperationManager.AutoRegisterOperations();
+await OperationManager.StartListeningAsync();
+```
+
 ## What does it look like?
 This is an example taken from the [DemoApp](https://github.com/NotCoffee418/CSharpScriptOperations/blob/main/DemoApp).
 ```
@@ -26,7 +45,7 @@ Running operation 1...
 Hello World!
 ```
 
-## How to use it?
+## Detailed Instructions
 ### 1. Install the nuget package.
 Install the  [nuget package](https://www.nuget.org/packages/CSharpScriptOperations/) into a **Console Application**.  
 Call `using CSharpScriptOperations` wherever you need it.
@@ -51,6 +70,13 @@ The description attribute is used in the console to show what the operation does
 
 ### 3. Register your operations
 Bulk register your operations in one swoop:
+
+### Automatic Registration
+```csharp
+OperationManager.AutoRegisterOperations()
+```
+
+#### Manual registration
 ```csharp
 OperationManager.RegisterOperationsBulk(
     new List<Type>() {
