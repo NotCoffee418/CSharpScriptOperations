@@ -1,8 +1,4 @@
-﻿using Autofac;
-using System;
-using System.Threading.Tasks;
-
-namespace CSharpScriptOperations;
+﻿namespace CSharpScriptOperations;
 
 internal class Application
 {
