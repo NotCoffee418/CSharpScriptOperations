@@ -1,13 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿namespace CSharpScriptOperations;
 
-namespace CSharpScriptOperations
+public interface IOperation
 {
-    public interface IOperation
-    {
-        /// <summary>
-        /// Starts the operation
-        /// </summary>
-        Task RunAsync();
-    }
+    /// <summary>
+    /// Starts the operation
+    /// </summary>
+    Task RunAsync();
 }
