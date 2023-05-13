@@ -3,22 +3,26 @@ using CSharpScriptOperations;
 using DemoApp.Logic;
 using DemoApp.Operations;
 
-// Register our operations one by one
-OperationManager.RegisterOperation(typeof(HelloWorld));
+
+// You can automatically register all operations
+OperationManager.AutoRegisterOperations();
+
+// You can also register operations one by one.
+//OperationManager.RegisterOperation(typeof(HelloWorld));
 
 // Alternatively we can register operations in the order we want them displayed
-OperationManager.RegisterOperationsBulk(
-    new List<Type>() {
-        typeof(TwoPlusTwo),
-        typeof(LondonWeather),
-        typeof(DemoUserInput),
-        typeof(AnOperationWithDependency),
-        typeof(LegacyDescriptionDemo),
-        typeof(PoseQuestionsDemo)
-    }
-);
+//OperationManager.RegisterOperationsBulk(
+//    new List<Type>() {
+//        typeof(TwoPlusTwo),
+//        typeof(LondonWeather),
+//        typeof(DemoUserInput),
+//        typeof(AnOperationWithDependency),
+//        typeof(LegacyDescriptionDemo),
+//        typeof(PoseQuestionsDemo)
+//    }
+//);
 
-// Register any custom dependencies through "OperationManager.ContainerBuilder" if needed
+// Optionally register any custom dependencies through "OperationManager.ContainerBuilder" if needed
 OperationManager.ContainerBuilder
     .RegisterType<ExampleDependency>()
     .As<IExampleDependency>();

@@ -2,7 +2,7 @@
 
 namespace DemoApp.Operations;
 
-[OperationDescription("Post Questions Demo")]
+[OperationDescription("Pose Questions Demo", priority: 5)]
 internal class PoseQuestionsDemo : IOperation
 {
     public async Task RunAsync()

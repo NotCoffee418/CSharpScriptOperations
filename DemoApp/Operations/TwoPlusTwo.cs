@@ -3,7 +3,7 @@
 namespace DemoApp.Operations;
 
 
-[OperationDescription("Print the result of 2+2")]
+[OperationDescription("Print the result of 2+2", priority: 2)]
 class TwoPlusTwo : IOperation
 {
     public async Task RunAsync()

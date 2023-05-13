@@ -3,7 +3,7 @@
 namespace DemoApp.Operations;
 
 
-[OperationDescription("Demo UserInput")]
+[OperationDescription("Demo UserInput", priority: 3)]
 class DemoUserInput : IOperation
 {
     public async Task RunAsync()

@@ -4,7 +4,7 @@ using System.Net;
 
 namespace DemoApp.Operations;
 
-[OperationDescription("Print the current weather in London")]
+[OperationDescription("Print the current weather in London", priority: 4)]
 class LondonWeather : IOperation
 {
     public async Task RunAsync()

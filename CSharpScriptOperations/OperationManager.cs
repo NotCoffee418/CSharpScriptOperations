@@ -74,6 +74,7 @@ public static class OperationManager
             .Where(t => !t.IsInterface && !t.IsAbstract && t.GetInterfaces().Any(t => t.FullName == typeof(IOperation).FullName))
             // Don't include any internal operations
             .Where(a => !a.FullName.StartsWith(nameof(CSharpScriptOperations)))
+            .OrderBy(x => x.GetCustomAttribute<OperationDescriptionAttribute>()?.Priority ?? 0)
             .ToList();
         RegisterOperationsBulk(operationTypes);
     }
