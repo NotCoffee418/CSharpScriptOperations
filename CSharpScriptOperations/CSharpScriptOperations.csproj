@@ -10,7 +10,7 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Description>Library for streamlining the process of executing custom operations via the console.</Description>
     <Authors>Stijn Raeymaekers</Authors>
-    <Version>1.4.1</Version>
+    <Version>1.4.2</Version>
 	<LangVersion>latest</LangVersion>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
