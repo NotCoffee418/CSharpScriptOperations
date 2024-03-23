@@ -92,22 +92,32 @@ OperationManager.RegisterOperation(typeof(HelloWorld));
 ```
 
 ### 4. Register dependencies (optional)
-If you'd like to use dependency injection with autofac, make sure to install the [autofac nuget package](https://www.nuget.org/packages/Autofac) and add the using statement.
+You can optionally use dependency injection with Autofac or Microsoft Dependency Injection.
 
-```csharp
-using Autofac;
-```
+
 Register any dependencies to `OperationManager.ContainerBuilder` before starting the listener.
 ```csharp
+ContainerBuilder AutofacContainerBuilder = new ContainerBuilder();
+
+// Include application dependencies
 OperationManager.ContainerBuilder
     .RegisterType<ExampleDependency>()
     .As<IExampleDependency>();
+
+// Include the services registered by the OperationManager
+AutofacContainerBuilder.Populate(OperationManager.Services);
+
+// Build the container
+var serviceProvider = new AutofacServiceProvider(AutofacContainerBuilder.Build());
 ```
 
 ### 5. Start the listener
 This will display our options and interpret user input to run the approperiate operation.
 ```csharp
 await OperationManager.StartListeningAsync();
+
+// or if you use dependency injection
+await OperationManager.StartListeningAsync(serviceProvider);
 ```
 Alternatively you can implement your own version of `StartListening()`.  
 You can access the registered operations and it's classes through the
