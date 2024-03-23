@@ -26,10 +26,9 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Autofac" Version="[7,]" />  <!-- Autofac version "[8,]" -->
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="[8,]" /> <!-- Autofac version "[8,]" -->
-    <PackageReference Include="CoffeeToolkit.Linq" Version="2022.12.26.241" />
+  <ItemGroup>  <!-- Autofac version "[8,]" --> <!-- Autofac version "[8,]" -->
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
   </ItemGroup>
 
 </Project>
