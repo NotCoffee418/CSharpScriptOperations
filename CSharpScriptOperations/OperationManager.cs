@@ -94,7 +94,7 @@ public static class OperationManager
             ?? Services.BuildServiceProvider();
 
         // List all operations
-        Console.Write(OperationManager.GetOperationsDisplay());
+        Console.Write(GetOperationsDisplay());
 
         // Request user
         while (true) // Breakout is calling Exit operation
