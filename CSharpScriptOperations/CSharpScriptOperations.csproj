@@ -10,7 +10,9 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Description>Library for streamlining the process of executing custom operations via the console.</Description>
     <Authors>Stijn Raeymaekers</Authors>
-    <Version>1.4.2</Version>
+	<Build>$([System.DateTime]::op_Subtraction($([System.DateTime]::get_Now().get_Date()),$([System.DateTime]::new(2000,1,1))).get_TotalDays())</Build>
+	<Revision>$([MSBuild]::Divide($([System.DateTime]::get_Now().get_TimeOfDay().get_TotalMinutes()), 2).ToString('F0'))</Revision>
+	<Version>1.$(Build).$(Revision)</Version>
 	<LangVersion>latest</LangVersion>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
